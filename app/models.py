@@ -8,15 +8,15 @@ class UserModel(BaseModel):
     email: EmailStr = Field(...)  # Validated email address (required)
     age: Optional[int] = None  # Age of the user (optional)
 
-    class Config:
-        # Example schema used for API documentation (Swagger)
-        schema_extra = {
+    model_config = {
+        "json_schema_extra": {
             "example": {
                 "name": "Akash Thakur",
                 "email": "akash@example.com",
                 "age": 23
             }
         }
+    }
 
 # Model used specifically for secure user signup payload
 class UserCreate(BaseModel):
@@ -25,9 +25,8 @@ class UserCreate(BaseModel):
     password: str = Field(...)  # Plain password entered by user (required)
     age: Optional[int] = None  # Age of the user (optional)
 
-    class Config:
-        # Example schema for signup request
-        schema_extra = {
+    model_config = {
+        "json_schema_extra": {
             "example": {
                 "name": "Akash Thakur",
                 "email": "akash@example.com",
@@ -35,6 +34,7 @@ class UserCreate(BaseModel):
                 "age": 23
             }
         }
+    }
 
 # Internal model representing how user data is stored inside the database
 class UserInDB(BaseModel):

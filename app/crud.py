@@ -1,8 +1,8 @@
 from app.models import UserModel
-
 from bson import ObjectId
-
 from fastapi import HTTPException
+import collections.abc
+import inspect
 
 # Function to create a new user in the database
 async def create_user(user: UserModel, db):
@@ -14,7 +14,11 @@ async def create_user(user: UserModel, db):
     user_dict = user.dict()
     
     # Insert the user document into the 'users' collection
-    result = await db["users"].insert_one(user_dict)
+    insert = db["users"].insert_one(user_dict)
+    if inspect.isawaitable(insert):
+        result = await insert
+    else:
+        result = insert
     
     # Return the inserted user's ID as a string
     return str(result.inserted_id)
@@ -29,11 +33,17 @@ async def get_all_users(db):
     # Query the 'users' collection to find all user documents
     cursor = db["users"].find({})
     
-    # Iterate asynchronously over the documents found
-    async for document in cursor:
-        # Convert MongoDB ObjectId into a string for JSON serialization
-        document["_id"] = str(document["_id"])
-        users.append(document)
+    # Try async for (Motor), else fallback to sync for (mongomock)
+    if hasattr(cursor, "__aiter__"):
+        async for document in cursor:
+            # Convert MongoDB ObjectId into a string for JSON serialization
+            document["_id"] = str(document["_id"])
+            users.append(document)
+    else:
+        for document in cursor:
+            # Convert MongoDB ObjectId into a string for JSON serialization
+            document["_id"] = str(document["_id"])
+            users.append(document)
     
     # Return the list of all users
     return users

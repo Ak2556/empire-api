@@ -1,121 +1,202 @@
-🛡️ Commander — Here’s your complete, copy-paste-ready README.md content:
+# 🏰 Empire API & Dashboard
 
-# Empire API 🛡️
+[![CI](https://github.com/yourusername/empire-api/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/empire-api/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/github/yourusername/empire-api/badge.svg?branch=main)](https://coveralls.io/github/yourusername/empire-api?branch=main)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Deploy Backend](https://img.shields.io/badge/Backend-Render-blue?logo=render)](https://render.com/)
+[![Deploy Frontend](https://img.shields.io/badge/Frontend-Vercel-black?logo=vercel)](https://vercel.com/)
 
-A production-grade backend API for secure user management, built using **FastAPI** and **MongoDB Atlas**.  
-Designed to serve as the authentication and user base for future AI SaaS platforms and scalable cloud applications.
+---
+
+A modern, production-grade SaaS starter kit with a **FastAPI** backend (MongoDB, JWT Auth) and a **React + Material UI** frontend.  
+Built for scalable, secure user management and rapid SaaS prototyping.
 
 ---
 
 ## 🚀 Features
 
-- User Signup with secure password hashing (bcrypt encryption)
-- Fetch all users (admin-level endpoint)
-- MongoDB Atlas cloud database integration
-- Environment variable management via `.env`
-- Modular professional project structure
-- Async support for high performance
-- Fully tested with Swagger UI API docs
+- **User Signup & Login** with JWT authentication
+- **MongoDB Atlas** async database integration (Motor)
+- **React** frontend with Material UI, responsive dashboard, and sidebar navigation
+- **Full-stack JWT Auth**: Secure, stateless sessions
+- **CORS** enabled for frontend-backend communication
+- **Robust CRUD** and error handling
+- **Fully tested** backend (FastAPI TestClient, mongomock)
+- **Production-ready** structure and best practices
 
 ---
 
-## ⚙️ Tech Stack
+## 🖥️ Tech Stack
 
-| Layer | Technology |
-|:---|:---|
-| Backend Framework | FastAPI |
-| Database | MongoDB Atlas (Motor async driver) |
-| Password Security | bcrypt (passlib) |
-| Environment Variables | python-dotenv |
-| API Documentation | Swagger UI (`/docs`) |
-| Hosting Ready | Render / Railway / Vercel (future deployment) |
-
----
-
-## 📜 API Endpoints
-
-| Method | Route | Description |
-|:---|:---|:---|
-| `POST` | `/signup` | Create a new user securely (hashed password) |
-| `POST` | `/create_user` | Create a basic user (non-encrypted, testing only) |
-| `GET` | `/get_users` | Retrieve all registered users |
-| `GET` | `/` | Check if server is live |
+| Layer      | Technology                        |
+|------------|-----------------------------------|
+| Backend    | FastAPI, Motor (MongoDB), JWT     |
+| Frontend   | React (Vite), Material UI, Axios  |
+| Auth       | JWT (PyJWT), localStorage (FE)    |
+| Testing    | FastAPI TestClient, mongomock     |
+| DevOps     | Python-dotenv, CORS, Vercel/Render-ready |
 
 ---
 
-## 🛠️ Setup Instructions
+## 📦 Project Structure
 
-1. Clone the Repository
+```
+empire-api/
+├── app/                # FastAPI backend
+│   ├── main.py         # API routes & app setup
+│   ├── models.py       # Pydantic models
+│   ├── crud.py         # DB operations
+│   ├── database.py     # MongoDB connection
+│   ├── security.py     # Password/JWT utils
+│   └── test_main.py    # Backend tests
+├── frontend/           # React frontend (Vite)
+│   ├── src/pages/      # Home, Login, Signup, Dashboard, etc.
+│   ├── src/assets/     # Images, styles
+│   └── ...             # Components, theme, etc.
+├── requirements.txt    # Python dependencies
+├── .env.example        # Example environment config
+├── README.md           # This file
+└── ...                 # venv, .gitignore, etc.
+```
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. **Clone the Repository**
 
 ```bash
-git clone https://github.com/Ak2556/empire_api.git
-cd empire_api
+git clone https://github.com/yourusername/empire-api.git
+cd empire-api
+```
 
-	2.	Create a Virtual Environment
+### 2. **Backend Setup (FastAPI)**
 
+```bash
 python3 -m venv venv
 source venv/bin/activate
-
-	3.	Install Dependencies
-
 pip install -r requirements.txt
+```
 
-	4.	Setup Environment Variables
+- Copy `.env.example` to `.env` and fill in your MongoDB URI and secret key:
 
-Create a .env file based on .env.example:
+  ```
+  MONGO_URI=mongodb+srv://<username>:<password>@<cluster-address>/<dbname>?retryWrites=true&w=majority
+  SECRET_KEY=your_production_secret_key
+  ```
 
-MONGO_URI=mongodb+srv://<username>:<password>@<cluster-address>/<dbname>?retryWrites=true&w=majority&appName=<yourAppName>
+- Start the backend server:
 
-	5.	Run the Server Locally
+  ```bash
+  uvicorn app.main:app --reload
+  ```
 
-uvicorn app.main:app --reload
+- Visit [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) for Swagger UI.
 
-	6.	Test the API
+### 3. **Frontend Setup (React + Vite)**
 
-Visit:
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-http://127.0.0.1:8000/docs
+- The frontend will run on [http://localhost:5173](http://localhost:5173) (default Vite port).
 
-✅ Test all routes directly via Swagger UI!
-
-⸻
-
-📦 Project Structure
-
-empire_api/
-├── app/
-│   ├── crud.py          # Database operations (Create, Read)
-│   ├── database.py      # MongoDB connection setup
-│   ├── main.py          # API route definitions
-│   ├── models.py        # Data models and validation
-│   ├── security.py      # Password hashing and verification
-├── .env                 # Environment variables (private, not pushed)
-├── .env.example         # Example env file for GitHub
-├── README.md            # Project documentation
-├── requirements.txt     # Project dependencies
-└── venv/                # Virtual environment folder (not pushed)
-
-
-
-⸻
-
-🛡️ Security Features
-	•	All passwords are hashed using bcrypt before saving to database.
-	•	Environment secrets are loaded safely through .env.
-	•	Sensitive information is excluded from GitHub commits.
-
-⸻
-
-✨ Future Enhancements
-	•	Implement JWT authentication for login and secure protected routes
-	•	Role-based user authorization (admin, user)
-	•	OpenAI API integration for AI-powered services
-	•	Full SaaS user dashboard development
-
-⸻
-
-👑 Built By: Akash Thakur
-
-Full Stack Developer | Backend Engineer | Future SaaS Founder
+- Configure the frontend to point to your backend API (see `src/api.js` or similar).
 
 ---
+
+## 🛡️ Environment Variables
+
+Copy `.env.example` to `.env` and fill in:
+
+```env
+# Backend
+MONGO_URI=your_mongodb_connection_string
+SECRET_KEY=your_jwt_secret_key
+
+# (Frontend: if using .env for API URL)
+VITE_API_URL=http://localhost:8000
+```
+
+---
+
+## 🧪 Running Tests
+
+- **Backend:**  
+  ```bash
+  pytest app/test_main.py
+  ```
+  (Uses mongomock for isolated DB tests.)
+
+- **Frontend:**  
+  Add and run tests with your preferred React testing library.
+
+---
+
+## 🚀 Deployment
+
+- **Backend:** Deploy to [Render](https://render.com/), [Fly.io](https://fly.io/), or [Railway](https://railway.app/).
+- **Frontend:** Deploy to [Vercel](https://vercel.com/) or [Netlify](https://www.netlify.com/).
+
+See deployment guides in the wiki or add your own.
+
+---
+
+## 📝 API Endpoints (Backend)
+
+| Method | Route      | Description                        |
+|--------|------------|------------------------------------|
+| POST   | `/signup`  | Register new user (JWT returned)   |
+| POST   | `/login`   | Login, receive JWT                 |
+| GET    | `/get_users` | List all users (protected/admin) |
+| GET    | `/`        | Health check                       |
+
+See `/docs` for full OpenAPI schema.
+
+---
+
+## ✨ Future Enhancements
+
+- Role-based authorization (admin/user)
+- Social login (OAuth)
+- Multi-tenant SaaS support
+- CI/CD (GitHub Actions)
+- Cloud deployment scripts
+
+---
+
+## 👑 Author
+
+**Akash Thakur**  
+Full Stack Developer | Backend Engineer | SaaS Enthusiast
+
+---
+
+## 🛡️ Security & Best Practices
+
+- Passwords hashed (bcrypt) before storage
+- JWT secrets and DB URIs never committed
+- CORS and environment isolation enabled
+- All secrets in `.env` (never commit this file!)
+
+---
+
+## 📄 License
+
+MIT — see [LICENSE](./LICENSE)
+
+---
+
+**Ready to launch your SaaS? Fork, star, and build!**
+
+---
+
+### Badges (optional)
+
+Add CI, coverage, or deployment badges here for extra polish.
+
+---
+
+**If you need a matching `.env.example` or want to add CI/CD, let me know!**
